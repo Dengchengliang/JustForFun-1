@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.security.auth.login.AccountLockedException;
-import javax.security.auth.login.CredentialExpiredException;
 
 /**
  * Created by zhongming on 15/12/19.
