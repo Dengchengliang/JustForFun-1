@@ -1,7 +1,6 @@
 package org.handy.manmadeprototype.auth.dao;
 
 import org.handy.manmadeprototype.auth.model.SiteUser;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 import org.apache.ibatis.annotations.Param;
 
