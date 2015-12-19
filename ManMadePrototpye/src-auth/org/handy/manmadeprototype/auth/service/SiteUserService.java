@@ -1,5 +1,7 @@
 package org.handy.manmadeprototype.auth.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.handy.manmadeprototype.auth.model.SiteUserDetail;
 
 /**
  * Created by zhongming on 15/12/18.
@@ -45,9 +49,15 @@ public class SiteUserService implements UserDetailsService {
      * 获取当前登录用户详细信息
      * @return
      */
-    public UserDetails getCurrentUser() {
+    public SiteUserDetail getCurrentUser() {
 
-        // TODO
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth.getName().equals("anonymousUser")) {
+            // TODO 匿名登录
+
+        }else {
+            return (SiteUserDetail) auth.getPrincipal();
+        }
 
         return null;
     }
