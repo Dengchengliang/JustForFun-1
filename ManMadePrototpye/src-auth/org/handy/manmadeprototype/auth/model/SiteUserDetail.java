@@ -12,11 +12,32 @@ public class SiteUserDetail extends User {
 
     private long id;
 
-    public SiteUserDetail(long id,
-                          String username,
+    public SiteUserDetail(String username,
                           String password,
                           Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
+    }
+
+    public SiteUserDetail(String username,
+                          String password,
+                          boolean enabled,
+                          boolean accountNoExpired,
+                          boolean credentialsNoExpired,
+                          boolean accountNoLocked,
+                          Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, accountNoExpired, credentialsNoExpired, accountNoLocked, authorities);
+    }
+
+    public SiteUserDetail(long id,
+                          String username,
+                          String password,
+                          boolean enabled,
+                          boolean accountNoExpired,
+                          boolean credentialsNoExpired,
+                          boolean accountNoLocked,
+                          Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, accountNoExpired, credentialsNoExpired, accountNoLocked, authorities);
+        setId(id);
     }
 
     public long getId() {
