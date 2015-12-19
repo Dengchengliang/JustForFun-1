@@ -31,7 +31,7 @@ public class SiteUserController {
     @ApiOperation("获取用户列表")
     @RequestMapping(method = RequestMethod.GET)
     public List<SiteUser> getUsers() {
-        List<SiteUser> siteUserList = siteUserService.get(0, null); // 参数待确定
+        List<SiteUser> siteUserList = siteUserService.get(null, null); // 参数待确定
 
         return siteUserList;
     }
