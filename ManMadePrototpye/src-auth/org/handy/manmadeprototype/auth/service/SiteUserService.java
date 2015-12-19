@@ -1,5 +1,8 @@
 package org.handy.manmadeprototype.auth.service;
 
+import org.handy.manmadeprototype.auth.dao.ISiteUserMapper;
+import org.handy.manmadeprototype.auth.model.SiteUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +30,9 @@ import org.handy.manmadeprototype.auth.model.SiteUserDetail;
 public class SiteUserService implements UserDetailsService {
 
     private Logger logger = LogManager.getLogger(SiteUserService.class);
+
+    @Autowired
+    private ISiteUserMapper siteUserMapper;
 
     // 用户名密码正则校验
     private Pattern userNamePtn = Pattern.compile("^[a-zA-Z0-9_-]{6,20}$");
@@ -87,6 +95,45 @@ public class SiteUserService implements UserDetailsService {
         // TODO 将注册信息插入数据库,返回插入状态码
         return 0; // return insert code
     }
+
+    public Integer updateUserInfo(Long id,
+                                  String username,
+                                  String password,
+                                  String authorities,
+                                  boolean enabled) throws Exception {
+        if(id == null) {
+            throw new Exception("用户id不能为空!");
+        }
+        if(username != null && !validator(username, userNamePtn)) {
+            throw new Exception("用户名不符合规范!");
+        }
+        if(password != null && !validator(password, passWordPtn)) {
+            throw new Exception("密码不符合规范!");
+        }
+        if(username != null && get(null, username).size() != 0) {
+            throw new Exception("用户名已被占用!");
+        }
+        if(password != null) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            password = passwordEncoder.encode(password);
+        }
+
+        return siteUserMapper.update(id, username, password, authorities, enabled);
+    }
+
+
+
+
+    /**
+     * 获取用户列表
+     * @param id   用户id
+     * @param name 用户名
+     * @return
+     */
+    public List<SiteUser> get(Long id, String name) {
+        return siteUserMapper.get(id, name);
+    }
+
 
     /**
      * 登录验证函数

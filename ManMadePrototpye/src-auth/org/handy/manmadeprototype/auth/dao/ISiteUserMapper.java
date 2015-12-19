@@ -25,10 +25,10 @@ public interface ISiteUserMapper {
     Integer insert(@Param("username") String username, @Param("password") String password);
 
     Integer update(
-            @Param("id") long id,
+            @Param("id") Long id,
             @Param("username") String username,
             @Param("password") String password,
             @Param("authorities") String authorities,
-            @Param("enabled") boolean enabled
+            @Param("enabled") Boolean enabled
     );
 }
