@@ -19,4 +19,14 @@
     <servlet-name>admin</servlet-name>
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
+
+  <!-- [ auth ] ==================================================================================================== -->
+  <servlet>
+    <servlet-name>auth</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:configs/security-servlet.xml</param-value>
+    </init-param>
+  </servlet>
 </web-app>
