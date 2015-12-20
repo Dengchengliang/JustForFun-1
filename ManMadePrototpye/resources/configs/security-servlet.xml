@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- 开发环境下配置 -->
+    <beans profile="dev">
+        <security:http auto-config="true" use-expressions="false" entry-point-ref="restAuthenticationEntryPoint">
+            <security:intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"></security:intercept-url>
+            <security:headers disabled="true"></security:headers>
+            <security:csrf disabled="true"></security:csrf>
+            <security:logout logout-url="/auth/logout" logout-success-url="/"></security:logout>
+
+            <security:form-login login-page="/auth/login"
+                                 login-processing-url="/auth/api/login"
+                                 username-parameter="username"
+                                 password-parameter="password"
+                                 authentication-success-handler-ref="restAuthenticationSuccessHandler"
+                                 authentication-failure-handler-ref="authFailureHandleDev">
+
+            </security:form-login>
+        </security:http>
+
+        <security:authentication-manager>
+            <security:authentication-provider ref="siteAuthenticationProvider"></security:authentication-provider>
+        </security:authentication-manager>
+
+        <bean id="authFailureHandleDev"
+              class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+
+        </bean>
+    </beans>
+</beans>
